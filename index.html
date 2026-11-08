@@ -1,47 +1,142 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="bn">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b1220">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Papiya AI Signal</title>
 <style>
-:root{color-scheme:dark;--bg:#0b1220;--panel:#121d30;--line:#263650;--muted:#9aabc3;--green:#20c997;--red:#ff657a;--blue:#6da8ff}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#14243b 0,#0b1220 48%);color:#f4f7fb;font:15px system-ui,-apple-system,"Noto Sans Bengali",sans-serif}
-.wrap{max-width:760px;margin:auto;padding:22px 16px 40px}.top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:22px}
-.brand{font-size:20px;font-weight:800;letter-spacing:.2px}.brand span{color:var(--green)}.tag{font-size:11px;color:#ffd27a;border:1px solid #66512b;border-radius:20px;padding:6px 10px}
-h1{font-size:25px;margin:8px 0 5px}.sub{color:var(--muted);margin:0 0 20px;font-size:13px}
-.panel{background:linear-gradient(145deg,#152238,#101a2b);border:1px solid var(--line);border-radius:18px;padding:17px;margin:13px 0;box-shadow:0 12px 30px #0002}
-label{display:block;color:var(--muted);font-size:12px;margin:0 0 7px}
-select,button{width:100%;border-radius:11px;border:1px solid #31435e;background:#0c1728;color:#fff;padding:13px;font:inherit}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.signal{display:flex;align-items:center;justify-content:center;min-height:90px;border-radius:14px;background:#0c1728;border:1px solid var(--line);text-align:center}
-.signal strong{display:block;font-size:23px;margin-top:5px}.up{color:var(--green)}.down{color:var(--red)}
-.status{font-size:21px;font-weight:750;margin:8px 0}.muted{color:var(--muted);font-size:12px;line-height:1.6}
-.chart{height:170px;position:relative;overflow:hidden;border-radius:13px;background:repeating-linear-gradient(0deg,transparent 0 33px,#26365066 34px),repeating-linear-gradient(90deg,transparent 0 48px,#26365044 49px),#0b1728}
-.chart:after{content:"চার্ট ডেটা যুক্ত করা হয়নি";position:absolute;inset:0;display:grid;place-items:center;color:#8da0bb;font-size:13px}
-button{background:linear-gradient(90deg,#168f72,#20b88e);border:0;font-weight:750;margin-top:13px;cursor:pointer}
-.note{border-left:3px solid #e0aa48;padding:10px 12px;background:#211d17;border-radius:7px;color:#f4d49b;font-size:12px;line-height:1.6}
-footer{text-align:center;color:#71839d;font-size:11px;margin-top:20px}
-@media(max-width:420px){h1{font-size:22px}.wrap{padding:17px 13px 30px}.panel{padding:14px}}
-</style></head>
-<body><main class="wrap">
-<header class="top"><div class="brand">PAPIYA <span>AI SIGNAL</span></div><div class="tag">STARTER VERSION</div></header>
-<h1>Trading Signal Dashboard</h1><p class="sub">Quotex market analysis workspace · 1-minute timeframe</p>
-<section class="panel">
-<div class="grid">
-<div><label for="market">MARKET TYPE</label><select id="market"><option>OTC Market</option><option>Real Market</option></select></div>
-<div><label for="pair">CURRENCY PAIR</label><select id="pair"><option>EUR/USD</option><option>GBP/USD</option><option>USD/JPY</option><option>AUD/USD</option><option>EUR/GBP</option></select></div>
+*{box-sizing:border-box}
+body{margin:0;background:#101522;color:#fff;font-family:Arial,sans-serif;padding:18px}
+.container{max-width:520px;margin:auto}
+h1{text-align:center;color:#64e6c2}
+.sub{text-align:center;color:#aab5c8;font-size:13px}
+.card{background:#1c2638;border-radius:14px;padding:17px;margin:14px 0}
+label{display:block;margin:12px 0 6px;color:#b9c6d9}
+select,button{width:100%;padding:13px;border-radius:9px;border:0;font-size:16px}
+select{background:#303d53;color:white}
+button{background:#19b994;color:#071b19;font-weight:bold;margin-top:16px}
+button:disabled{opacity:.5}
+.signal{text-align:center;font-size:38px;font-weight:bold;padding:18px}
+.up{color:#38e69c}.down{color:#ff647c}.wait{color:#ffd166}
+.info{color:#c3cede;line-height:1.8}
+.small{font-size:12px;color:#9eabc0;line-height:1.6}
+h3{margin-top:0}
+.history{border-bottom:1px solid #39465b;padding:9px 0;font-size:14px}
+</style>
+</head>
+<body>
+<div class="container">
+<h1>✦ PAPIYA AI SIGNAL ✦</h1>
+<p class="sub">Personal Market Analysis Dashboard</p>
+
+<div class="card">
+<label>Market</label>
+<select id="market">
+<option value="REAL">Real Market</option>
+<option value="OTC">OTC (ডেটা সংযুক্ত নয়)</option>
+</select>
+
+<label>Currency Pair</label>
+<select id="pair">
+<option value="EUR/USD">EUR/USD</option>
+<option value="GBP/USD">GBP/USD</option>
+<option value="USD/JPY">USD/JPY</option>
+<option value="AUD/USD">AUD/USD</option>
+<option value="USD/CHF">USD/CHF</option>
+<option value="USD/CAD">USD/CAD</option>
+</select>
+
+<label>Timeframe</label>
+<select disabled><option>1 Minute</option></select>
+
+<button id="getSignal" onclick="getSignal()">GET NEW SIGNAL</button>
 </div>
-<div style="margin-top:15px"><label>TIMEFRAME</label><div style="font-weight:750">1 Minute (M1)</div></div>
-</section>
-<section class="panel"><label>MARKET CHART</label><div class="chart" role="img" aria-label="Chart placeholder"></div><p class="muted">চার্ট দেখাতে হলে অনুমোদিত ও নির্ভরযোগ্য মার্কেট ডেটা সোর্স সংযুক্ত করতে হবে।</p></section>
-<section class="panel">
-<label>LATEST SIGNAL</label><div class="status">WAITING FOR VERIFIED DATA</div><p class="muted">এখনো কোনো লাইভ ডেটা সোর্স যুক্ত নেই। তাই এই সাইট কোনো UP/DOWN নির্দেশ দিচ্ছে না।</p>
-<div class="grid"><div class="signal"><div><span class="up">▲</span><strong class="up">UP / CALL</strong><span class="muted">শুধু ডেটা যাচাইয়ের পর</span></div></div><div class="signal"><div><span class="down">▼</span><strong class="down">DOWN / PUT</strong><span class="muted">শুধু ডেটা যাচাইয়ের পর</span></div></div></div>
-<button id="analyze">CHECK DATA CONNECTION</button><p id="msg" class="muted" aria-live="polite"></p>
-</section>
-<section class="panel"><label>RECENT SIGNAL HISTORY</label><p class="muted">এখনো কোনো যাচাইকৃত সিগন্যাল নেই। ডেটা সোর্স ও সিগন্যাল নিয়ম যুক্ত হলে এখানে হিস্টোরি দেখা যাবে।</p></section>
-<div class="note">সতর্কতা: এটি প্রাথমিক ওয়েবসাইট টেমপ্লেট। এটি Quotex-এর সঙ্গে সংযুক্ত নয় এবং কোনো লাভ, সঠিক সিগন্যাল বা ট্রেডের নিশ্চয়তা দেয় না। OTC ডেটার নির্ভরযোগ্য উৎস আলাদাভাবে যাচাই করতে হবে।</div>
-<footer>© Papiya AI Signal · Educational prototype</footer>
-</main>
-<script>document.getElementById('analyze').addEventListener('click',()=>{document.getElementById('msg').textContent='ডেটা সোর্স এখনো সংযুক্ত নয়। লাইভ সিগন্যাল চালু করা হয়নি।'});</script>
-</body></html>
+
+<div class="card">
+<h3>Market Signal</h3>
+<div id="signal" class="signal wait">WAITING</div>
+<div class="info">
+Pair: <span id="showPair">EUR/USD</span><br>
+Price: <span id="price">--</span><br>
+Candle Time: <span id="candleTime">--</span><br>
+Expiry: 1 Minute
+</div>
+<p id="status" class="small">নতুন ডেটার জন্য বাটনে চাপ দিন।</p>
+</div>
+
+<div class="card">
+<h3>Signal History</h3>
+<div id="history" class="small">এখনো কোনো সিগন্যাল নেই।</div>
+</div>
+
+<p class="small">
+সতর্কতা: এটি পরীক্ষামূলক ডেটা-ভিত্তিক বিশ্লেষণ, নিশ্চিত ভবিষ্যদ্বাণী নয়। OTC ডেটা এই সংস্করণে সংযুক্ত নয়। ট্রেড করার আগে ডেমোতে পরীক্ষা করুন।
+</p>
+</div>
+
+<script>
+const WORKER_URL = "https://papiya-ai-signal.islampapiya20.workers.dev/";
+
+async function getSignal(){
+  const market=document.getElementById("market").value;
+  const pair=document.getElementById("pair").value;
+  const btn=document.getElementById("getSignal");
+  const signal=document.getElementById("signal");
+  const status=document.getElementById("status");
+
+  document.getElementById("showPair").textContent=pair;
+
+  if(market==="OTC"){
+    signal.textContent="NO DATA";
+    signal.className="signal wait";
+    status.textContent="OTC মার্কেটের ডেটা সোর্স এখনো সংযুক্ত হয়নি।";
+    return;
+  }
+
+  btn.disabled=true;
+  btn.textContent="LOADING...";
+  signal.textContent="WAIT";
+  signal.className="signal wait";
+  status.textContent="মার্কেট ডেটা আনা হচ্ছে...";
+
+  try{
+    const response=await fetch(WORKER_URL+"?symbol="+encodeURIComponent(pair));
+    const data=await response.json();
+
+    if(!response.ok || data.error || !data.signal){
+      throw new Error(data.error || "ডেটা পাওয়া যায়নি");
+    }
+
+    signal.textContent=data.signal;
+    signal.className="signal "+(data.signal==="UP"?"up":data.signal==="DOWN"?"down":"wait");
+    document.getElementById("price").textContent=data.currentPrice;
+    document.getElementById("candleTime").textContent=data.candleTime || "--";
+    status.textContent="ডেটা সংযোগ সফল। এটি পরীক্ষামূলক বিশ্লেষণ।";
+
+    const item=document.createElement("div");
+    item.className="history";
+    item.textContent=new Date().toLocaleTimeString()+" | "+pair+" | "+data.signal+" | "+data.currentPrice;
+    const history=document.getElementById("history");
+    if(history.textContent.includes("এখনো কোনো")) history.textContent="";
+    history.prepend(item);
+
+  }catch(error){
+    signal.textContent="ERROR";
+    signal.className="signal wait";
+    status.textContent="সমস্যা: "+error.message;
+  }finally{
+    btn.disabled=false;
+    btn.textContent="GET NEW SIGNAL";
+  }
+}
+
+document.getElementById("market").addEventListener("change",function(){
+  if(this.value==="OTC"){
+    document.getElementById("signal").textContent="NO DATA";
+    document.getElementById("status").textContent="OTC ডেটা এখনো সংযুক্ত নয়।";
+  }
+});
+</script>
+</body>
+</html>
